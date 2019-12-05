@@ -43,7 +43,7 @@ for period_text in tqdm(dates_series):
     data.append(df)
 data = pd.concat(data)
 
-"""Remove grid points that have no idea
+"""Remove grid points that have no data
 """
 ind = data[variable] < 100000000
 data = data.loc[ind].reset_index()
