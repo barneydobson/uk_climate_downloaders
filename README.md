@@ -6,6 +6,9 @@ Users can specify time-series type, grid scale and time-step and automatically d
 Users can also aggregate the downloaded data over a specified shapefile (scripts/load_and_aggregate_data.py)
 
 Required modules:
+
 -To download: requests, pandas, os
+
 -To aggregate: geopandas, shapely, xarray, netcdf4, pandas
+
 -Also used (but you can change the code so these aren't required): certifi, tqdm, os
