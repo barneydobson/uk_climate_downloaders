@@ -14,7 +14,7 @@ from tqdm import tqdm
 
 """Enter addresses and input data
 """
-shp_address = os.path.join("C:\\","Users","bdobson","Downloads","")
+shp_address = os.path.join("C:\\","Users","bdobson","Downloads","example.shp")
 data_address = os.path.join("C:\\","Users","bdobson","Downloads","")
 output_address =  os.path.join("C:\\","Users","bdobson","Downloads","")
 
