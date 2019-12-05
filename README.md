@@ -3,4 +3,4 @@ This repository provides a python script that can automatically download dataset
 
 Users can specify time-series type, grid scale and time-step.
 
-I will add a script to read the netcdf files and average them over user-provided shapefiles hopefully before Christmas 2019.
+Users can also aggregate the downloaded data over a specified shapefile.
