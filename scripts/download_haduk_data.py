@@ -11,14 +11,14 @@ import haduk_downloader_functions
 This includes, username, password, output location and details for the download
 """
 
-data={'username':'YOUR_USERNAME',
-      'password':'YOUR_PASSWORD'} # create an account here: https://services.ceda.ac.uk/cedasite/register/info/
+data={'username':'bdobson001',
+      'password':'barnCeda'} # create an account here: https://services.ceda.ac.uk/cedasite/register/info/
 
 
 output_folder = os.path.join("C:\\","Users","bdobson","Downloads","")
 start_year = 1975
 end_year = 1980
-grid_scale = 5 # km
+grid_scale = 25 # km
 period = 'day' #'day', 'mon' or 'ann'
 variable = 'rainfall' #tested 'rainfall' and 'tas' (temperature)
 
