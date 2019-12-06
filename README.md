@@ -7,8 +7,8 @@ Users can also aggregate the downloaded data over a specified shapefile (scripts
 
 Required modules:
 
--To download: requests, pandas, os
+-To download: requests, pandas, os, certifi
 
 -To aggregate: geopandas, shapely, xarray, netcdf4, pandas
 
--Also used (but you can change the code so these aren't required): certifi, tqdm, os
+-Also used (but you can change the code so these aren't required): tqdm, os
