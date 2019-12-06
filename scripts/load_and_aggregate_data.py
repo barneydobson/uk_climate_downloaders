@@ -19,7 +19,7 @@ data_address = os.path.join("C:\\","Users","bdobson","Downloads","")
 output_address =  os.path.join("C:\\","Users","bdobson","Downloads","")
 
 start_year = 1975
-end_year = 1980
+end_year = 1980 # up to but not including end_year
 grid_scale = 25 # km
 period = 'day' #'day', 'mon' or 'ann'
 variable = 'rainfall' #tested 'rainfall' and 'tas' (temperature)
