@@ -17,7 +17,7 @@ data={'username':'bdobson001',
 
 output_folder = os.path.join("C:\\","Users","bdobson","Downloads","")
 start_year = 1975
-end_year = 1980
+end_year = 1980 # Up to but not including the end_year
 grid_scale = 25 # km
 period = 'day' #'day', 'mon' or 'ann'
 variable = 'rainfall' #tested 'rainfall' and 'tas' (temperature)
