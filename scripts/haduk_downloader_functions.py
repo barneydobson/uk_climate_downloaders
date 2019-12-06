@@ -16,7 +16,6 @@ def startClient(data,site_url):
     csrftoken = s.cookies['csrftoken']
     data['csrfmiddlewaretoken']=csrftoken
     r = s.post(site_url,data=data,headers=dict(Referer=site_url))
-#    r = s.post(site_url,json=data,headers=dict(Referer=site_url),verify=False)
 #    print(r.content)
     return s
 
@@ -46,7 +45,6 @@ def getFileweblocation(grid_scale,variable,period,version):
                                          getFilename(variable,grid_scale,period))
     
 def addCertificate(cert_location):
-    #Alternatively you can add 'verify=False' in the post command in startClient() - but this is not secure
     cafile = certifi.where()
     with open(cert_location,'rb') as infile: 
         customca = infile.read()
