@@ -9,6 +9,6 @@ Required modules:
 
 -To download: requests, pandas, os, certifi
 
--To aggregate: geopandas, shapely, xarray, netcdf4, pandas
+-To aggregate: geopandas, shapely, xarray, netcdf4, pandas, numpy
 
 -Also used (but you can change the code so these aren't required): tqdm, os

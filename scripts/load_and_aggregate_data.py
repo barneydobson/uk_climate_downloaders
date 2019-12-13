@@ -50,22 +50,26 @@ data = data.loc[ind].reset_index()
 
 """Assign grid points to the different shapes in the shapefile (this is slow)
 """
-data['shp_id'] = None
+print('Assigning grid points')
 grid_points = data[['latitude','longitude']].drop_duplicates()
+points = []
 for idx in tqdm(grid_points.index):
     row = grid_points.loc[idx]
-    ind = (data.latitude == row.latitude) & (data.longitude == row.longitude)
-    my_point = Point(row.longitude,row.latitude)
-    shp_ind = shp.contains(my_point)
-    if any(shp_ind):
-        data.loc[ind,'shp_id'] = shp.loc[shp_ind,'index'].iloc[0]
+    ind = np.where((data.latitude == row.latitude) & (data.longitude == row.longitude))
+    points.append({'lon':row.longitude,'lat':row.latitude,'data_rows':ind,'index':str(idx),'geometry':Point(row.longitude,row.latitude)})
+points = gpd.GeoDataFrame(points)
+points = points.set_index('index')
+points.crs = {'init' :'epsg:4326'}
+points = gpd.tools.sjoin(points,shp,how='left')
 
 """Aggregate data and print to csv
 """
 for i in shp['index']:
-    in_geom = data.shp_id == i
+    point_ind = points[name] == shp.loc[i,name]
+    points.loc[point_ind,'data_rows']
+    in_geom = np.concatenate(np.concatenate(points.loc[point_ind,'data_rows']))
     
-    data_in_geom = data.loc[in_geom].reset_index()
+    data_in_geom = data.iloc[in_geom].reset_index()
     data_in_geom = data_in_geom.groupby('time').mean() # Average over all points inside a shape
     data_in_geom['date'] = data_in_geom.index.date.tolist()
     data_in_geom = data_in_geom[['date',variable]]
