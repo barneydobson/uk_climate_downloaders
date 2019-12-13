@@ -20,6 +20,7 @@ def startClient(data,site_url):
     return s
 
 def createDateseries(period,start_year,end_year):
+    end_year += 1
     if period == 'day':
         dates = pd.date_range(pd.to_datetime(start_year*100+1,format='%Y%m'),
                               pd.to_datetime(end_year*100+1,format='%Y%m'),
