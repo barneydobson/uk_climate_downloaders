@@ -15,4 +15,5 @@ Required modules:
 
 ## Citation
 [![DOI](https://zenodo.org/badge/228587225.svg)](https://zenodo.org/badge/latestdoi/228587225)
-Barnaby Dobson, 2020-03-11, HadUK Downloader, v1.0
+
+Barnaby Dobson, 2020, HadUK Downloader, v1.0
