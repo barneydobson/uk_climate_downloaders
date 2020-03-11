@@ -12,3 +12,6 @@ Required modules:
 -To aggregate: geopandas, shapely, xarray, netcdf4, pandas, numpy
 
 -Also used (but you can change the code so these aren't required): tqdm, os
+
+## DOI
+[![DOI](https://zenodo.org/badge/228587225.svg)](https://zenodo.org/badge/latestdoi/228587225)
