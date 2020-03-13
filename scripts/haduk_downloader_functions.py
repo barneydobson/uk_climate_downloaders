@@ -8,6 +8,11 @@ import requests
 import pandas as pd
 import certifi
 
+def startChessClient(data,site_url):
+    s = requests.Session()
+    r = s.post(site_url, data = data)
+    return s
+
 def startClient(data,site_url):
     """Log in to the ceda data store
     """
@@ -19,8 +24,12 @@ def startClient(data,site_url):
 #    print(r.content)
     return s
 
+def petDateseries(start_year,end_year):
+    return [str(x) for x in list(range(start_year,end_year+1))]
+
 def createDateseries(period,start_year,end_year):
     end_year += 1
+
     if period == 'day':
         dates = pd.date_range(pd.to_datetime(start_year*100+1,format='%Y%m'),
                               pd.to_datetime(end_year*100+1,format='%Y%m'),
