@@ -8,7 +8,7 @@ import requests
 import pandas as pd
 import certifi
 
-def startChessClient(data,site_url):
+def startCehClient(data,site_url):
     s = requests.Session()
     r = s.post(site_url, data = data)
     return s
