@@ -11,6 +11,7 @@ import xarray as xr
 import os
 import haduk_downloader_functions
 from tqdm import tqdm
+import numpy as np
 
 """Enter addresses and input data
 """
@@ -29,7 +30,7 @@ name = 'zone_name' # the 'name' column in the .shp file (or whatever column you 
 """Load shapefile and create file names
 """
 shp = gpd.read_file(shp_address).reset_index()
-
+shp = shp.to_crs(epsg=4326)
 dates_series = haduk_downloader_functions.createDateseries(period,start_year,end_year)
 
 file_name = haduk_downloader_functions.getFilename(variable,grid_scale,period)
@@ -40,6 +41,8 @@ data = []
 for period_text in tqdm(dates_series):
     ds = xr.open_dataset(data_address + file_name + period_text + '.nc')
     df = ds.to_dataframe()
+    ind = df[variable] < 100000000
+    df = df.loc[ind].reset_index()
     data.append(df)
 data = pd.concat(data)
 
@@ -48,40 +51,43 @@ data = pd.concat(data)
 ind = data[variable] < 100000000
 data = data.loc[ind].reset_index()
 
-"""Assign grid points to the different shapes in the shapefile (this is slow)
+"""Assign grid points to the different shapes in the shapefile (this is slow and memory intensive)
 """
 print('Assigning grid points')
-grid_points = data[['latitude','longitude']].drop_duplicates()
+grid_points = data[['latitude','longitude']].drop_duplicates().reset_index()
 points = []
 for idx in tqdm(grid_points.index):
     row = grid_points.loc[idx]
-    ind = np.where((data.latitude == row.latitude) & (data.longitude == row.longitude))
-    points.append({'lon':row.longitude,'lat':row.latitude,'data_rows':ind,'index':str(idx),'geometry':Point(row.longitude,row.latitude)})
+    points.append({'idx' : row['index'], 'lon':row.longitude, 'lat':row.latitude, 'geometry' : Point(row.longitude,row.latitude)})
+    
 points = gpd.GeoDataFrame(points)
-points = points.set_index('index')
-points.crs = {'init' :'epsg:4326'}
+points = points.set_index('idx')
+points.crs = '+init=epsg:4326'
 points = gpd.tools.sjoin(points,shp,how='left')
 
 """Aggregate data and print to csv
 """
-for i in shp['index']:
+full_df = []
+for i in tqdm(shp['index']):
     point_ind = points[name] == shp.loc[i,name]
-    points.loc[point_ind,'data_rows']
-    in_geom = np.concatenate(np.concatenate(points.loc[point_ind,'data_rows']))
-    
-    data_in_geom = data.iloc[in_geom].reset_index()
-    data_in_geom = data_in_geom.groupby('time').mean() # Average over all points inside a shape
-    data_in_geom['date'] = data_in_geom.index.date.tolist()
-    data_in_geom = data_in_geom[['date',variable]]
-    
-    iname = shp.loc[shp['index']==i,name].iloc[0]
-    
-    data_in_geom.to_csv(os.path.join(output_address,
-                                     '_'.join([iname,
-                                               variable,
-                                               str(start_year),
-                                               str(end_year),
-                                               period,
-                                               str(grid_scale),
-                                               'km'])+".csv"),
-                            sep=',',index=False)
+    if any(point_ind):
+        data_rows = []
+        for point in point_ind[point_ind].index:
+            t = np.where((data.latitude == points.loc[point,'lat']) & (data.longitude == points.loc[point,'lon']))[0].tolist()
+            data_rows = data_rows + t
+        data_in_geom = data.iloc[data_rows].reset_index()
+        data_in_geom = data_in_geom.groupby('time').mean() # Average over all points inside a shape
+        data_in_geom['date'] = data_in_geom.index.date.tolist()
+        data_in_geom = data_in_geom[['date',variable]]
+        
+        data_in_geom['iname'] = shp.loc[shp['index']==i,name].iloc[0]
+        full_df.append(pd.Series(data=data_in_geom[variable],name=shp.loc[shp['index']==i,name].iloc[0],index=data_in_geom.index))
+full_df = pd.concat(full_df,axis=1)
+data_in_geom.to_csv(os.path.join(output_address,
+                                '_'.join([variable,
+                                          str(start_year),
+                                          str(end_year),
+                                          period,
+                                          str(grid_scale),
+                                          'km'])+".csv"),
+                        sep=',',index=False)
