@@ -19,9 +19,9 @@ import haduk_downloader_functions
 This includes, username, password, output location and details for the download
 """
 
-output_folder = os.path.join("C:\\","Users","bdobson","Downloads","")
-start_year = 1903
-end_year = 2015 # Up to but not including the end_year
+output_folder = os.path.join("C:\\","Users","Barney","Downloads","")
+start_year = 2014
+end_year = 2016 # Up to but not including the end_year
 
 data={'username':'ceh_username',
       'password':'ceh_password'} 
@@ -37,7 +37,7 @@ dates_series = haduk_downloader_functions.petDateseries(start_year,end_year)
 
 
 #seems to need a new client each time
-s = haduk_downloader_functions.startChessClient(data,site_url)
+s = haduk_downloader_functions.startCehClient(data,site_url)
 
 """Iterate over dates
 """
