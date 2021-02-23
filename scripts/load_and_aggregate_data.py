@@ -15,14 +15,14 @@ import numpy as np
 
 """Enter addresses and input data
 """
-shp_address = os.path.join("C:\\","Users","bdobson","Downloads","example.shp")
-data_address = os.path.join("C:\\","Users","bdobson","Downloads","")
-output_address =  os.path.join("C:\\","Users","bdobson","Downloads","")
+shp_address = os.path.join("C:\\","Users","Barney","Downloads","example.shp")
+data_address = os.path.join("C:\\","Users","Barney","Downloads","")
+output_address =  os.path.join("C:\\","Users","Barney","Downloads","")
 
 start_year = 1975
 end_year = 1980
 grid_scale = 25 # km
-period = 'day' #'day', 'mon' or 'ann'
+period = 'ann' #'day', 'mon' or 'ann'
 variable = 'rainfall' #tested 'rainfall' and 'tas' (temperature)
 
 name = 'zone_name' # the 'name' column in the .shp file (or whatever column you want the output files to be named)
@@ -46,10 +46,6 @@ for period_text in tqdm(dates_series):
     data.append(df)
 data = pd.concat(data)
 
-"""Remove grid points that have no data
-"""
-ind = data[variable] < 100000000
-data = data.loc[ind].reset_index()
 
 """Assign grid points to the different shapes in the shapefile (this is slow and memory intensive)
 """
@@ -78,16 +74,16 @@ for i in tqdm(shp['index']):
         data_in_geom = data.iloc[data_rows].reset_index()
         data_in_geom = data_in_geom.groupby('time').mean() # Average over all points inside a shape
         data_in_geom['date'] = data_in_geom.index.date.tolist()
-        data_in_geom = data_in_geom[['date',variable]]
+        data_in_geom = data_in_geom[['date',variable]].set_index('date')
         
         data_in_geom['iname'] = shp.loc[shp['index']==i,name].iloc[0]
         full_df.append(pd.Series(data=data_in_geom[variable],name=shp.loc[shp['index']==i,name].iloc[0],index=data_in_geom.index))
 full_df = pd.concat(full_df,axis=1)
-data_in_geom.to_csv(os.path.join(output_address,
+full_df.to_csv(os.path.join(output_address,
                                 '_'.join([variable,
                                           str(start_year),
                                           str(end_year),
                                           period,
                                           str(grid_scale),
                                           'km'])+".csv"),
-                        sep=',',index=False)
+                        sep=',',index=True)
