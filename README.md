@@ -19,3 +19,6 @@ Required modules:
 [![DOI](https://zenodo.org/badge/228587225.svg)](https://zenodo.org/badge/latestdoi/228587225)
 
 Barnaby Dobson, 2020, UK Climate Downloaders, v1.0
+
+## Previous Citations
+Barnaby Dobson, 2020, HadUK Downloader, v1.0
