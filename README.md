@@ -1,5 +1,7 @@
-# haduk_downloader
+# uk_climate_downloaders
 This repository provides a python script that can automatically download and manipulate datasets from Metoffice's Had-UK website (https://catalogue.ceda.ac.uk/uuid/4dc8450d889a491ebb20e724debe2dfb). This dataset contains gridded estimates of historic climate data that covers the entire UK.
+
+It also contains downloaders for various other UK climate data: weather@home climate projections, CHESS historic potential evapotranspiration 
 
 Users can specify time-series type, grid scale and time-step and automatically download this data (scripts/download_haduk_data.py)
 
@@ -16,4 +18,4 @@ Required modules:
 ## Citation
 [![DOI](https://zenodo.org/badge/228587225.svg)](https://zenodo.org/badge/latestdoi/228587225)
 
-Barnaby Dobson, 2020, HadUK Downloader, v1.0
+Barnaby Dobson, 2020, UK Climate Downloaders, v1.0
