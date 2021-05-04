@@ -127,24 +127,3 @@ master_df.to_csv(os.path.join(output_folder, period + '.csv' ))
 mdf = master_df.copy()
 mdf['time'] = master_df.time.astype(str)
 mdf.to_parquet(os.path.join(output_folder, period + '.gzip' ), compression = 'GZIP')
-
-
-#Custom format for request
-shp_fid = os.path.join("C:\\", "Users", "bdobson", "OneDrive - Imperial College London","temp","jonny_shape.geojson")
-jgdf = gpd.read_file(shp_fid)
-
-grid_points = master_df[['lon','lat']].drop_duplicates()
-    
-points = []
-for idx, row in grid_points.iterrows():
-    points.append({'idx' : idx, 'lon':row.lon, 'lat':row.lat, 'geometry' : Point(row.lon,row.lat)})
-points = gpd.GeoDataFrame(points)
-points = points.set_index('idx')
-points.crs = 'epsg:4326'
-points = gpd.tools.sjoin(points,jgdf,how='left')
-points = points.dropna()
-
-merged = pd.merge(points, master_df, how='left', on = ['lat','lon'])
-merged = merged.groupby(['ensemble','time']).mean()
-merged = merged.reset_index().pivot(index='time',columns='ensemble',values=variable)
-merged.to_csv(os.path.join(output_folder, "formatted_" + period + ".csv"))
