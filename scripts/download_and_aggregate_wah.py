@@ -106,7 +106,7 @@ for i in tqdm(years):
     points = gpd.tools.sjoin(points,gdf,how='left')
     points = points.dropna()
     
-    points = points[['lat','lon','cams_name']]
+    points = points[['lat','lon',name]]
     
     #Create data
     merged = pd.merge(points, dfs, how='left', on = ['lat','lon'])
@@ -126,4 +126,5 @@ master_df = master_df.drop_duplicates()
 master_df.to_csv(os.path.join(output_folder, period + '.csv' ))
 mdf = master_df.copy()
 mdf['time'] = master_df.time.astype(str)
+
 mdf.to_parquet(os.path.join(output_folder, period + '.gzip' ), compression = 'GZIP')
