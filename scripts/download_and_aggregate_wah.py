@@ -34,7 +34,7 @@ name = "cams_name"
 
 #Organise text
 period = "baseline"
-variable = "pepm" 
+variable = "pepm" # find out more at https://dap.ceda.ac.uk/badc/weather_at_home/data/marius_time_series/CEDA_MaRIUS_Climate_Data_Description.pdf
 timestep = "daily"
 
 file_url_base = 'http://data.ceda.ac.uk/badc/weather_at_home/data/marius_time_series/' + period + '/data' 
