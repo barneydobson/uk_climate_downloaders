@@ -13,7 +13,6 @@ import pandas as pd
 """User data
 This includes, username, password, output location and details for the download
 """
-
 data={'username':'YOUR_USERNAME',
       'password':'YOUR_PASSWORD'} # create an account here: https://services.ceda.ac.uk/cedasite/register/info/
 
@@ -41,7 +40,8 @@ ensembles = ['01',
              '12',
              '13',
              '15'] # e.g. what is available here https://data.ceda.ac.uk/badc/ukcp18/data/land-rcm/uk/12km/rcp85
-
+area = 'uk' # can be 'uk', 'eur' or 'global', but depends on the model
+#NOTE: if you use an area other than UK, you will have to be careful about the spatial aggregation since these data presumably do not use BNG
 period = 'day' #'day', 'mon' or 'ann' (or '1hr' for 'cpm' model)
 #NOTE: the dateseries will need to be customised if using period other than 'day'
 
@@ -74,13 +74,13 @@ for date, ensemble, variable in tqdm(p_e_v):
     period_text = '_'.join([variable,
                             scenario,
                             'land-' + model,
-                            'uk',
+                            area,
                             resolution,
                             ensemble,
                             period,
                             date])
     file_url = file_url_base + '/'.join([model,
-                                         'uk',
+                                         area,
                                          resolution,
                                          scenario,
                                          ensemble,
