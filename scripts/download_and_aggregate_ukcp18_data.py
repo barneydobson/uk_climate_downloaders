@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This is a script to download UKCP18 data, written by Barnaby Dobson, 21st, July, 2021
+Browse available data at: https://data.ceda.ac.uk/badc/ukcp18/data
 """
 
 import os
