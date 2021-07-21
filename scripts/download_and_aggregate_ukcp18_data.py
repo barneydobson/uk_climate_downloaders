@@ -20,7 +20,7 @@ data={'username':'YOUR_USERNAME',
 #shp is the shape that you want to aggregate the data to
 shp_fid = os.path.join("C:\\", "Users", "bdobson", "OneDrive - Imperial College London", "maps", "wrz", "wrz.geojson")
 shp = gpd.read_file(shp_fid) # Assuming shp is BNG and has crs defined!!!
-name = 'RZ_ID'
+name = 'RZ_ID' # Name that you want to use to label each sub-area (each geometry in shp should have a unique 'name')
 output_folder = os.path.join("C:\\","Users","bdobson","Documents","data","ukcp18", "")
 start_year = 1980
 end_year = 2080 # Up to but not including the end_year
