@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-This is a script to download hadUK data, written by Barnaby Dobson, 5th, Dec, 2019
+This is a script to download UKCP18 data, written by Barnaby Dobson, 21st, July, 2021
 """
 
 import os
@@ -17,6 +17,7 @@ This includes, username, password, output location and details for the download
 data={'username':'YOUR_USERNAME',
       'password':'YOUR_PASSWORD'} # create an account here: https://services.ceda.ac.uk/cedasite/register/info/
 
+#shp is the shape that you want to aggregate the data to
 shp_fid = os.path.join("C:\\", "Users", "bdobson", "OneDrive - Imperial College London", "maps", "wrz", "wrz.geojson")
 shp = gpd.read_file(shp_fid) # Assuming shp is BNG and has crs defined!!!
 name = 'RZ_ID'
@@ -24,7 +25,6 @@ output_folder = os.path.join("C:\\","Users","bdobson","Documents","data","ukcp18
 start_year = 1980
 end_year = 2080 # Up to but not including the end_year
 resolution = '12km' # can be '12km', 'country', 'region', 'river' - or whatever is available for that model
-period = 'day' #'day', 'mon' or 'ann'
 variables = ["tas", "sfcWind", "hurs", "rss", "rls", "pr"] # https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/research/ukcp/ukcp18-guidance-data-availability-access-and-formats.pdf
 model = 'rcm' # can be 'rcm', 'gcm', 'cpm'
 scenario = 'rcp85' #
@@ -42,7 +42,8 @@ ensembles = ['01',
              '13',
              '15'] # e.g. what is available here https://data.ceda.ac.uk/badc/ukcp18/data/land-rcm/uk/12km/rcp85
 
-
+period = 'day' #'day', 'mon' or 'ann' (or '1hr' for 'cpm' model)
+#NOTE: the dateseries will need to be customised if using period other than 'day'
 
 
 """Website information
