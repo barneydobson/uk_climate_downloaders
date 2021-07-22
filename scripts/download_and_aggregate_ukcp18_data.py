@@ -120,4 +120,4 @@ for date, ensemble, variable in tqdm(p_e_v):
     dfs.append(df)
 
 dfs = pd.concat(dfs)
-dfs.to_parquet(output_folder + '_'.join([model, resolution, scenario]) + '.gzip')
+dfs.reset_index().to_csv(output_folder + '_'.join([model, resolution, scenario]) + '.csv',index=False)
