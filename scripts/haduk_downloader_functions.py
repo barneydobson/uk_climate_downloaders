@@ -28,14 +28,25 @@ def petDateseries(start_year,end_year):
     return [str(x) for x in list(range(start_year,end_year+1))]
 
 def createDateseries(period,start_year,end_year):
-    end_year += 1
+    
 
     if period == 'day':
+        end_year += 1
         dates = pd.date_range(pd.to_datetime(start_year*100+1,format='%Y%m'),
                               pd.to_datetime(end_year*100+1,format='%Y%m'),
                               freq='m')
         dates_series = dates.strftime('%Y%m') + '01-' + dates.strftime('%Y%m%d')
+    elif period == 'decade':
+        # weird ukcp18 formats
+        dates1 = pd.date_range(pd.to_datetime(start_year*10000+1201,format='%Y%m%d'),
+                              pd.to_datetime(end_year*10000+1201,format='%Y%m%d'),
+                              freq='10Y') - pd.DateOffset(days = 30)
+        dates2 = pd.date_range(pd.to_datetime((start_year+10)*10000+1201,format='%Y%m%d'),
+                              pd.to_datetime((end_year+10)*10000+1201,format='%Y%m%d'),
+                              freq='10Y') - pd.DateOffset(days = 31)
+        dates_series = dates1.strftime('%Y%m%d') + '-' + dates2.strftime('%Y%m%d')
     else:
+        end_year += 1
         dates = pd.date_range(pd.to_datetime(start_year*100+1,format='%Y%m'),
                               pd.to_datetime(end_year*100+1,format='%Y%m'),
                               freq='Y')

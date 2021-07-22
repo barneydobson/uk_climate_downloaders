@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 This is a script to download UKCP18 data, written by Barnaby Dobson, 21st, July, 2021
+Browse available data at: https://data.ceda.ac.uk/badc/ukcp18/data
 """
 
 import os
@@ -22,7 +23,7 @@ shp = gpd.read_file(shp_fid) # Assuming shp is BNG and has crs defined!!!
 name = 'RZ_ID' # Name that you want to use to label each sub-area (each geometry in shp should have a unique 'name')
 output_folder = os.path.join("C:\\","Users","bdobson","Documents","data","ukcp18", "")
 start_year = 1980
-end_year = 2080 # Up to but not including the end_year
+end_year = 2080 # Up to and including the end_year
 resolution = '12km' # can be '12km', 'country', 'region', 'river' - or whatever is available for that model
 variables = ["tas", "sfcWind", "hurs", "rss", "rls", "pr"] # https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/research/ukcp/ukcp18-guidance-data-availability-access-and-formats.pdf
 model = 'rcm' # can be 'rcm', 'gcm', 'cpm'
@@ -119,4 +120,4 @@ for date, ensemble, variable in tqdm(p_e_v):
     dfs.append(df)
 
 dfs = pd.concat(dfs)
-dfs.to_parquet(output_folder + '_'.join([model, resolution, scenario]) + '.gzip')
+dfs.reset_index().to_csv(output_folder + '_'.join([model, resolution, scenario]) + '.csv',index=False)
