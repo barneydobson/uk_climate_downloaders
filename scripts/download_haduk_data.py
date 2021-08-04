@@ -11,27 +11,26 @@ import haduk_downloader_functions
 This includes, username, password, output location and details for the download
 """
 
-data={'username':'USER_NAME',
+data={'username':'USERNAME',
       'password':'PASSWORD'} # create an account here: https://services.ceda.ac.uk/cedasite/register/info/
 
 
-output_folder = os.path.join("C:\\","Users","bdobson","Downloads","")
-start_year = 1975
-end_year = 1980 # Up to but not including the end_year
+output_folder = os.path.join("C:\\", "Users", "bdobson", "OneDrive - Imperial College London", "students", "msc", "misc", "patrick","")
+start_year = 2011
+end_year = 2019 # Up to but not including the end_year
 grid_scale = 25 # km
-period = 'day' #'day', 'mon' or 'ann'
-variable = 'rainfall' #tested 'rainfall' and 'tas' (temperature)
+period = 'mon' #'day', 'mon' or 'ann'
+variable = 'tasmax' #tested 'rainfall' and 'tas' (temperature)
 
 
 """Website information
 Give site and file urls
 Create dates and file names
 """
-
 site_url = 'https://auth.ceda.ac.uk/account/signin/' # login page
 
-file_url_base = 'http://dap.ceda.ac.uk/thredds/fileServer/badc/ukmo-hadobs/data/insitu/MOHC/HadOBS/HadUK-Grid/v1.0.1.0/' # hadUK data base address
-version = 'v20190808' # the latest release I suppose
+file_url_base = 'http://dap.ceda.ac.uk/badc/ukmo-hadobs/data/insitu/MOHC/HadOBS/HadUK-Grid/v1.0.2.1/' # hadUK data base address
+version = 'v20200731' # the latest release I suppose
 
 dates_series = haduk_downloader_functions.createDateseries(period,start_year,end_year)
 
