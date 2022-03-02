@@ -12,7 +12,7 @@ data_folder = os.path.join("C:\\", "Users", "bdobson", "Documents", "data", "had
 output_folder = os.path.join("C:\\", "Users", "bdobson", "Documents", "GitHub", "wsimod", "projects", "fine_catchments", "data", "enfield", "raw")
 labels = ['tas','hurs','sun','sfcWind','tasmin','tasmax']
 timestep = ['mon','mon','mon','mon','day','day']
-dates = '2006_2007'
+dates = '2000_2020'
 grid = '1_km'
 
 full_df = []
@@ -23,12 +23,15 @@ for variable, time in zip(labels, timestep):
                                                          grid,
                                                          "aggregated.csv"
                                                         ])))
-    df['date'] = pd.to_datetime(df.date)
+    
+    df = df.rename(columns = {'time' : 'date'})
+    df['date'] = pd.to_datetime(pd.to_datetime(df.date).dt.date.values)
     
     if variable == 'tas':
         tas_lagged = df.copy().iloc[1:]
         tas_lagged['date'] = df.iloc[0:-1]['date'].values
         tas_lagged = tas_lagged.set_index('date')
+        tas_lagged.columns = tas_lagged.columns.astype(float).astype(int)
         tas_lagged.loc[df['date'].iloc[-1]] = df.drop('date', axis = 1).iloc[-1]
         tas_lagged = tas_lagged.rename({tas_lagged.index[0] : tas_lagged.index[0].replace(day=1),
                                         tas_lagged.index[-1] : pd.to_datetime(pd.Period(tas_lagged.index[-1],freq='M').end_time.date())})
@@ -37,6 +40,7 @@ for variable, time in zip(labels, timestep):
         full_df.append(tas_lagged)
     #TODO: something for leap years
     df = df.set_index('date')
+    df.columns = df.columns.astype(float).astype(int)
     if time == 'mon':
         df = df.rename({df.index[0] : df.index[0].replace(day=1),
                         df.index[-1] : pd.to_datetime(pd.Period(df.index[-1],freq='M').end_time.date())})
