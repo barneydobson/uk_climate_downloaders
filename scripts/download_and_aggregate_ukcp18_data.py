@@ -123,7 +123,7 @@ for date, ensemble, variable in tqdm(p_e_v):
     df = pd.merge(df, points[['x','y',name]], on = ['x','y'])
     df = df.groupby(['ensemble', 'time', 'variable', name]).mean().value
     df = df.reset_index()
-    df["time"] = df["time"].dt.date.astype(str)
+    df["time"] = df["time"].astype(str).str.replace(" 12:00:00","")
     df.to_parquet(fid.replace('.nc', '.parquet'))
     dfs.append(df)
 
