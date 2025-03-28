@@ -45,6 +45,12 @@ def createDateseries(period,start_year,end_year):
                               pd.to_datetime((end_year+10)*10000+1201,format='%Y%m%d'),
                               freq='10Y') - pd.DateOffset(days = 31)
         dates_series = dates1.strftime('%Y%m%d') + '-' + dates2.strftime('%Y%m%d')
+    elif period == "1hr":
+        start_date = pd.Timestamp(f'{start_year}-01-01')
+        end_date = pd.Timestamp(f'{end_year}-12-31')
+        dates1 = pd.date_range(start_date, end_date, freq='MS').strftime("%Y%m%d")
+        dates2 = pd.date_range(start_date, end_date, freq='ME').strftime("%Y%m") + "30"
+        dates_series = [f"{d1}-{d2}" for d1, d2 in zip(dates1, dates2)]
     else:
         end_year += 1
         dates = pd.date_range(pd.to_datetime(start_year*100+1,format='%Y%m'),
